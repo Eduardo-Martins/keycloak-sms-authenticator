@@ -48,7 +48,7 @@ public class SMSSendVerify {
 
 		SMSParams data = new SMSParams();
 		data.setAttribute("phone_number", telNum);
-		data.setAttribute("country_code", "81"); // JAPAN
+		data.setAttribute("country_code", "55"); // GREAT BRAZIL!!! THE BEST DEVELOPERS IN THE WORLD!!! JAZZ!!! BOSSA NOVA!!! CAPOEIRA!!!
 		data.setAttribute("via", "sms"); // SMS
 		data.setAttribute("code_length", codeLen);
 

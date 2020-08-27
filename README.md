@@ -20,3 +20,7 @@ Under Authentication > Flows:
 Under Authentication > Bindings:
 
     Select 'Browser with SMS' as the 'Browser Flow' for the REALM.
+    
+Dockerized with KeyCloak:
+
+    Go to Dockerfile path and simply docker build .  //////// voila!!!
