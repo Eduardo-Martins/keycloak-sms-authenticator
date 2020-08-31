@@ -1,19 +1,15 @@
-# keycloak-sms-authenticator
+# keycloak-sms-authenticator twilio 
 
-To install the SMS Authenticator one has to:
+Dockerized with KeyCloak 11.0.2 (Brasil):
 
-    Add the jar to the Keycloak server:
-        $ cp target/sms-authenticator.jar _KEYCLOAK_HOME_/providers/
-
-    Add two templates to the Keycloak server:
-        $ cp themes/openstandia _KEYCLOAK_HOME_/themes/
+    Go to Dockerfile path and simply docker build .  //////// voila!!!
 
 Configure your REALM to use the SMS Authentication. First create a new REALM (or select a previously created REALM).
 
 Under Authentication > Flows:
 
-    Copy 'Browse' flow to 'openstandia browser' flow
-    Click on 'Actions > Add execution on the 'Openstandia Browser Forms' line and add the 'Twilio SMS Authentication'
+    Copy 'Browse' flow to 'sms-twilio browser' flow
+    Click on 'Actions > Add execution on the 'sms-twilio Browser Forms' line and add the 'Twilio SMS Authentication'
     Set 'Twilio SMS Authentication' to 'REQUIRED'
     To configure the SMS Authernticator, click on Actions Config and fill in the attributes.
 
@@ -21,6 +17,4 @@ Under Authentication > Bindings:
 
     Select 'Browser with SMS' as the 'Browser Flow' for the REALM.
     
-Dockerized with KeyCloak:
 
-    Go to Dockerfile path and simply docker build .  //////// voila!!!
