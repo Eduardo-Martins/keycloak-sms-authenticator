@@ -28,8 +28,16 @@ public class SMSAuthenticator implements Authenticator {
 		UserModel user = context.getUser();
 		String phoneNumber = getPhoneNumber(user);
 		logger.debugv("phoneNumber : {0}", phoneNumber);
+		
+		String phoneVerified = getPhoneVerified(user);
+		logger.debugv("verified : {0}", phoneVerified);
+		
+		if (phoneVerified.equals("1")) {
+			logger.debugv("verified : {0}", phoneVerified);
+			context.success();
+		}
 
-		if (phoneNumber != null) {
+		else if (phoneNumber != null) {
 
 			// SendSMS
 			SMSSendVerify sendVerify = new SMSSendVerify(getConfigString(config, SMSAuthContstants.CONFIG_SMS_API_KEY),
@@ -65,6 +73,9 @@ public class SMSAuthenticator implements Authenticator {
 		UserModel user = context.getUser();
 		String phoneNumber = getPhoneNumber(user);
 		logger.debugv("phoneNumber : {0}", phoneNumber);
+		
+		String phoneVerified = getPhoneVerified(user);
+		logger.debugv("verified : {0}", phoneVerified);
 
 		// SendSMS
 		AuthenticatorConfigModel config = context.getAuthenticatorConfig();
@@ -73,8 +84,13 @@ public class SMSAuthenticator implements Authenticator {
 				getConfigString(config, SMSAuthContstants.CONFIG_PROXY_URL),
 				getConfigString(config, SMSAuthContstants.CONFIG_PROXY_PORT),
 				getConfigString(config, SMSAuthContstants.CONFIG_CODE_LENGTH));
+		
+		if (phoneVerified.equals("1")) {
+			logger.info("phone is verified");
+			context.success();
+		}
 
-		if (sendVerify.verifySMS(phoneNumber, enteredCode)) {
+		else if (sendVerify.verifySMS(phoneNumber, enteredCode)) {
 			logger.info("verify code check : OK");
 			context.success();
 
@@ -109,6 +125,14 @@ public class SMSAuthenticator implements Authenticator {
 		List<String> phoneNumberList = user.getAttribute(SMSAuthContstants.ATTR_PHONE_NUMBER);
 		if (phoneNumberList != null && !phoneNumberList.isEmpty()) {
 			return phoneNumberList.get(0);
+		}
+		return null;
+	}
+	
+	private String getPhoneVerified(UserModel user) {
+		List<String> phoneVerifiedList = user.getAttribute(SMSAuthContstants.ATTR_PHONE_VERIFIED);
+		if (phoneVerifiedList != null && !phoneVerifiedList.isEmpty()) {
+			return phoneVerifiedList.get(0);
 		}
 		return null;
 	}
