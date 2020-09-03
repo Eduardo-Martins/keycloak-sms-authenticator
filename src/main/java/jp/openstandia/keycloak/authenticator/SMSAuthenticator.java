@@ -1,5 +1,6 @@
 package jp.openstandia.keycloak.authenticator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.MultivaluedMap;
@@ -45,8 +46,20 @@ public class SMSAuthenticator implements Authenticator {
 					getConfigString(config, SMSAuthContstants.CONFIG_PROXY_URL),
 					getConfigString(config, SMSAuthContstants.CONFIG_PROXY_PORT),
 					getConfigString(config, SMSAuthContstants.CONFIG_CODE_LENGTH));
+			
+			MultivaluedMap<String, String> inputData = context.getHttpRequest().getDecodedFormParameters();
+			String enteredCode = inputData.getFirst("smsCode");
+			
+			if (sendVerify.verifySMS(phoneNumber, enteredCode)) {
+				List<String> list = new ArrayList<>();
+				list.add("1");
+				user.setAttribute("phoneVerified", list);
+				logger.info("verify code check : OK");
+				context.success();
 
-			if (sendVerify.sendSMS(phoneNumber)) {
+			}
+
+			else if (sendVerify.sendSMS(phoneNumber)) {
 				Response challenge = context.form().createForm("sms-validation.ftl");
 				context.challenge(challenge);
 

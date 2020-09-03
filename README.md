@@ -1,6 +1,6 @@
 # keycloak-sms-authenticator twilio 
 
-Dockerized with KeyCloak 11.0.2 (Brasil):
+Twilio SMS Dockerized with KeyCloak 11.0.2 works with Keycloak REST API (Improved Code in Brasil):
 
     Go to Dockerfile path and simply docker build .  //////// voila!!!
 
