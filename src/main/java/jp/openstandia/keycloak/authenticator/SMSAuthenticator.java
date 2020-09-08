@@ -48,9 +48,9 @@ public class SMSAuthenticator implements Authenticator {
 					getConfigString(config, SMSAuthContstants.CONFIG_CODE_LENGTH));
 			
 			MultivaluedMap<String, String> inputData = context.getHttpRequest().getDecodedFormParameters();
-			String enteredCode = inputData.getFirst("smsCode");
+			String enteredCode = inputData.containsKey("smsCode") ? inputData.getFirst("smsCode") : "";
 			
-			if (sendVerify.verifySMS(phoneNumber, enteredCode)) {
+			if (!enteredCode.isEmpty() && sendVerify.verifySMS(phoneNumber, enteredCode)) {
 				List<String> list = new ArrayList<>();
 				list.add("1");
 				user.setAttribute("phoneVerified", list);
@@ -81,7 +81,7 @@ public class SMSAuthenticator implements Authenticator {
 		logger.debug("Method [action]");
 
 		MultivaluedMap<String, String> inputData = context.getHttpRequest().getDecodedFormParameters();
-		String enteredCode = inputData.getFirst("smsCode");
+		String enteredCode = inputData.containsKey("smsCode") ? inputData.getFirst("smsCode") : "";
 
 		UserModel user = context.getUser();
 		String phoneNumber = getPhoneNumber(user);
@@ -103,7 +103,7 @@ public class SMSAuthenticator implements Authenticator {
 			context.success();
 		}
 
-		else if (sendVerify.verifySMS(phoneNumber, enteredCode)) {
+		else if (!enteredCode.isEmpty() && sendVerify.verifySMS(phoneNumber, enteredCode)) {
 			logger.info("verify code check : OK");
 			context.success();
 
